@@ -176,6 +176,12 @@ mod.on_all_mods_loaded = function()
       end
     return data
   end)
+  mod:hook_safe(CLASS.CraftingExtractTraitView,"_perform_crafting", function(self)
+      print("Purging cache")
+      mod.blessings = {}
+      mod.traitCategory = {}
+      end)
 end
+
 
 
