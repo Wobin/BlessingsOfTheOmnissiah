@@ -3,6 +3,7 @@ Title: Blessings of the Omnissiah
 Author: Wobin
 Date: 02/02/2023
 Repository: https://github.com/Wobin/BlessingsOfTheOmnissiah
+Version: 1.4
 ]]--
 
 require("scripts/ui/view_content_blueprints/item_blueprints")
