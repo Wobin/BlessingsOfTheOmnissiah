@@ -90,8 +90,8 @@ mod.item_blessings= {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.online_green(255, true),
-                offset = {28, 0, 10},
-                size = {35, 35},                
+                offset = {27, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)                                                                  
                 if content.trait_1 then                                     
@@ -108,8 +108,8 @@ mod.item_blessings= {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.dark_orange(255, true),
-                offset = {28, 0, 10},
-                size = {35, 35},                
+                offset = {27, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)                                                                  
                 if content.trait_1 then                                     
@@ -126,8 +126,8 @@ mod.item_blessings= {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.online_green(255, true),
-                offset = {70, 0, 10},
-                size = {35, 35},                
+                offset = {69, -5, 20},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                    if content.trait_2 then                   
@@ -144,8 +144,8 @@ mod.item_blessings= {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.dark_orange(255, true),
-                offset = {70, 0, 10},
-                size = {35, 35},                
+                offset = {69, -5, 20},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                    if content.trait_2 then                   
@@ -201,8 +201,8 @@ mod.itemslot_blessings = {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.online_green(255, true),
-                offset = {28, 0, 10},
-                size = {35, 35},                
+                offset = {27, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                   if content.item ~= nil and content.item.traits ~= nil then                    
@@ -219,8 +219,8 @@ mod.itemslot_blessings = {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.dark_orange(255, true),
-                offset = {28, 0, 10},
-                size = {35, 35},                
+                offset = {27, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                   if content.item ~= nil and content.item.traits ~= nil then                    
@@ -236,8 +236,8 @@ mod.itemslot_blessings = {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.online_green(255, true),
-                offset = {70, 0, 10},
-                size = {35, 35},                
+                offset = {69, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                   if content.item ~= nil and content.item.traits ~= nil  then                    
@@ -253,8 +253,8 @@ mod.itemslot_blessings = {
                vertical_alignment = "bottom",
                 horizontal_alignment = "left",
                 color = Color.dark_orange(255, true),
-                offset = {70, 0, 10},
-                size = {35, 35},                
+                offset = {69, -5, 10},
+                size = {30, 30},                
             },
             visibility_function = function (content)        
                   if content.item ~= nil and content.item.traits ~= nil  then                    
@@ -321,7 +321,7 @@ mod.on_all_mods_loaded = function()
         if not isIn(data.item, texture) then
           table.insert(data.item, texture)        
         end
-      end
+      end 
     return data
   end)
   mod:hook_safe(CLASS.CraftingExtractTraitView,"_perform_crafting", function(self)
@@ -329,6 +329,3 @@ mod.on_all_mods_loaded = function()
       mod.traitCategory = {}
       end)
 end
-
-
-
