@@ -3,7 +3,7 @@ Title: Blessings of the Omnissiah
 Author: Wobin
 Date: 12/06/2023
 Repository: https://github.com/Wobin/BlessingsOfTheOmnissiah
-Version: 2.0
+Version: 2.1
 
 https://github.com/Aussiemon/Darktide-Source-Code/blob/4cd2fae4d6d248cb76751e7e4df386abaf8f2b62/scripts/ui/views/inventory_view/inventory_view_content_blueprints.lua#L712
 ]]--
@@ -91,9 +91,11 @@ local BlessingVisibilitySlot = function(item, index, lower_rank_indicator)
   if item.traits == nil or item.traits[index] == nil then     
     return false
   end   
-  local trait = content.element.item.traits[index]   
-  if not BlessingStored(trait) then 
-    return false
+  local trait = item.traits[index]   
+  local template = ItemUtils.trait_category(item)
+  if template and not mod.traitCategory[template] then
+    indexBlessings(template)    
+    return false    
   end  
   return traitVisibility(trait, lower_rank_indicator)
 end
