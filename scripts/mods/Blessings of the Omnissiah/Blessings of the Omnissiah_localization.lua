@@ -1,3 +1,17 @@
+local mod = get_mod("Blessings of the Omnissiah")
+
+mod:add_global_localize_strings({
+    loc_BotO_filter_unearnt_blessing = {
+        en = "Filter by unearnt blessing [Current: Unfiltered]"
+      },
+    loc_BotO_filter_max_blessing = {
+      en = "Filter by max level unearnt blessing [Current: Unearnt]"
+    },
+    loc_BotO_not_filter_blessing = {
+      en = "Remove blessing filter  [Current: Max Unearnt]"
+      }
+    })
+  
 return {
   mod_title = {
     en = "Blessings of the Omnissiah",
