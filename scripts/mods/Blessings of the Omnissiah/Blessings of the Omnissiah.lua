@@ -3,7 +3,7 @@ Title: Blessings of the Omnissiah
 Author: Wobin
 Date: 12/06/2023
 Repository: https://github.com/Wobin/BlessingsOfTheOmnissiah
-Version: 2.1
+Version: 2.2
 
 https://github.com/Aussiemon/Darktide-Source-Code/blob/4cd2fae4d6d248cb76751e7e4df386abaf8f2b62/scripts/ui/views/inventory_view/inventory_view_content_blueprints.lua#L712
 ]]--
@@ -365,8 +365,8 @@ end
 
 
 local countOf = function(items)
-  local count = 0
-  for i,v in pairs(items) do 
+  local count = 0  
+  for i,v in pairs(items or {}) do 
     count = count +1 
   end
   return count
@@ -395,7 +395,7 @@ local filter_max_unearnt_definition = {
 }
 
 local ProcessAllBlessings = function(items)  
-  for _,v in pairs(items) do
+  for _,v in pairs(items or {}) do
     if  v.__master_item.item_type ~= "GADGET" and v.__master_item.traits then
       for _, trait in ipairs(v.__master_item.traits) do
           BlessingStored(trait)
@@ -403,6 +403,20 @@ local ProcessAllBlessings = function(items)
     end
   end
 end
+
+ local refreshView = function()
+    if craftModifyView then
+      local character_id = craftModifyView:_player():character_id()
+      local item_type_filter_list = {
+        "WEAPON_MELEE",
+        "WEAPON_RANGED",
+        "GADGET"
+        }
+        craftModifyView._inventory_promise = Managers.data_service.gear:fetch_inventory(character_id, nil, item_type_filter_list)
+        craftModifyView._inventory_promise:next(callback(craftModifyView, "_cb_fetch_inventory_items"))        
+    end
+  end
+
 
 mod.on_all_mods_loaded = function()    
   
@@ -424,28 +438,20 @@ mod.on_all_mods_loaded = function()
   mod:hook_safe(CLASS.CraftingExtractTraitView,"_perform_crafting", function(self)
       mod.blessings = {}
       mod.traitCategory = {}
+      settings.filter = 2
+      refreshView()
     end)
   
   
   CLASSES.CraftingView.cb_on_filter = function(self)    
     cycleFilter()
-    if craftModifyView then
-      local character_id = craftModifyView:_player():character_id()
-      local item_type_filter_list = {
-        "WEAPON_MELEE",
-        "WEAPON_RANGED",
-        "GADGET"
-        }
-        craftModifyView._inventory_promise = Managers.data_service.gear:fetch_inventory(character_id, nil, item_type_filter_list)
-        craftModifyView._inventory_promise:next(callback(craftModifyView, "_cb_fetch_inventory_items"))        
-    end
-	
+    refreshView()
   end
   
   mod.FilterBlessings = function(item_list)     
     local list = {}        
     mod.FoundItemsFilter = 0
-    for i,v in pairs(item_list) do      
+    for i,v in pairs(item_list or {}) do      
       if v.__master_item then
         if isNotFiltered() or v.__master_item.item_type == "GADGET" then      
           list[i] = v
@@ -473,6 +479,7 @@ mod.on_all_mods_loaded = function()
       if self._tab_bar_views then
         for i,v in ipairs(self._tab_bar_views) do
           local legend = v.input_legend_buttons
+          if not legend then return end
           if not table.find_by_key(legend, "display_name", filter_unearnt_definition.display_name) then
             table.insert(legend, filter_unearnt_definition)    
           end
@@ -493,9 +500,8 @@ mod.on_all_mods_loaded = function()
       mod.index = 0      
   end)
 
-  mod:hook(CLASSES.CraftingModifyView, "cb_switch_tab", function(func, self, index, skip)
-    mod.index = index    
-    func(self, index)
+  mod:hook_safe(CLASSES.CraftingModifyView, "cb_switch_tab", function(self, index)
+    mod.index = index        
   end)
 
   
@@ -508,8 +514,10 @@ mod.on_all_mods_loaded = function()
       mod.oldIndex = mod.index        
       func(self, filtered_items)
       self._inventory_items = items      
+      mod.items = items
       self:cb_switch_tab(mod.oldIndex)
     end)
+  
 end
 
 
